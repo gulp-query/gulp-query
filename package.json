@@ -1,0 +1,16 @@
+{
+  "name": "gulp-query",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Marat Nuriev",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^2.1.0",
+    "gulp": "^3.9.1",
+    "minimist": "^1.2.0"
+  }
+}
