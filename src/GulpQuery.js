@@ -1,5 +1,8 @@
-const chalk = require('chalk');
 const gulp = require('gulp');
+const gulpPlumber = require('gulp-plumber');
+const gulpNotify = require('gulp-notify');
+const ThrowError = require('./ThrowError');
+const report = require('./Report');
 
 class GulpQuery {
 
@@ -7,12 +10,19 @@ class GulpQuery {
     this._args = args;
     this._params = args._.slice(0);
 
-    this._config = {
+    this.config = {
       root: process.cwd() + '/'
     };
 
     this._plugins = {};
     this._pluginsConfig = {};
+
+    this.report = report(this.config.root);
+
+    this.plumber = gulpPlumber;
+    this.notify = gulpNotify;
+
+    this._isProduction = 'production' in this._args;
 
     this._isWatching = false;
 
@@ -32,7 +42,7 @@ class GulpQuery {
   plugins(plugins)
   {
     plugins.forEach((plugin) => {
-      this._plugins[plugin.method] = plugin;
+      this._plugins[plugin.method()] = plugin;
     });
 
     return this._proxy;
@@ -43,6 +53,11 @@ class GulpQuery {
     console.log('CFG!!');
 
     return this._proxy;
+  }
+
+  isProduction()
+  {
+    return this._isProduction;
   }
 
   _prepareCheckParams(pluginName) {
@@ -67,9 +82,8 @@ class GulpQuery {
 
   _prepare(pluginName, args) {
     if (!(pluginName in this._plugins)) {
-      console.log(args);
-      console.log(chalk.red('There are no plugin for method «' + pluginName + '»'));
-      process.exit()
+      //console.log(args);
+      ThrowError.make('There are no plugin for method «' + pluginName + '»');
     }
 
     if (!this._prepareCheckParams(pluginName)) {
@@ -77,8 +91,7 @@ class GulpQuery {
     }
 
     if (!args[0]) {
-      console.log(chalk.red('You have to set config for method «' + pluginName + '»'));
-      process.exit()
+      ThrowError.make('You have to set config for method «' + pluginName + '»');
     }
 
     if (!(pluginName in this._pluginsConfig)) {
@@ -117,15 +130,15 @@ class GulpQuery {
           }
 
         } else {
-          console.log(chalk.red('There are no plugin for param «' + param + '»'));
-          process.exit()
+          ThrowError.make('There are no plugin for param «' + param + '»');
         }
       });
 
     }
 
+    let DefaultTasks = []
     pluginsNeedRun.forEach((plugin) => {
-      let pluginModule = this._plugins[plugin](this, this._pluginsConfig[plugin]);
+      let pluginModule = new this._plugins[plugin](this, this._pluginsConfig[plugin]);
 
       let tasks = pluginModule.getAllTasks();
       tasks.forEach((task) => {
@@ -133,8 +146,17 @@ class GulpQuery {
       });
 
       gulp.task(plugin, tasks);
+
+      DefaultTasks = DefaultTasks.concat(tasks);
     });
 
+    gulp.task('default', DefaultTasks);
+
+    if (!this._isWatching) {
+        process.on('beforeExit', () => {
+            this.report.draw();
+        });
+    }
   }
 
 }

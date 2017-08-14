@@ -1,0 +1,43 @@
+//@import "compass/reset";
+@import "test_scss/config";
+
+body {
+  color: $color;
+}
+
+#debug {
+  width: 90%;
+  margin: 30px auto 0;
+  line-height: 1.45;
+
+  .trace {
+    word-break: break-all;
+    white-space: pre-wrap;
+    background: rgba(0, 0, 0, 0.6);
+    color: #ccc;
+    padding: 5px;
+
+    hr {
+      border: none;
+      border-top: 1px solid #666;
+    }
+  }
+
+  .trace + .trace {
+    margin-top: 20px;
+  }
+}
+
+.tracer {
+  background: rgba(255, 255, 255, 0.7);
+  color: #111;
+  padding: 5px;
+}
+
+.tracer .__info {
+  font-size: 11px;
+}
+
+.tracer + .tracer {
+  margin-top: 10px;
+}
