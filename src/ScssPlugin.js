@@ -14,6 +14,7 @@ class ScssPlugin extends Plugin {
   }
 
   run(config, callback) {
+
     let full = ('full' in config ? config['full'] : false);
     let path_to = this.path(config.to);
     let path_from = this.path(config.from);
@@ -67,10 +68,10 @@ class ScssPlugin extends Plugin {
         outputStyle: 'expanded',
         includePaths: includePaths
       }).on('error', sass.logError))
-      .pipe(gulpif(sourceMap, sourcemaps.write(
-        (sourceMapType === 'inline-source-map' ? null : '.'),
-        {includeContent: (sourceMapType === 'inline-source-map')}
-      )))
+       .pipe(gulpif(sourceMap, sourcemaps.write(
+         (sourceMapType === 'inline-source-map' ? null : '.'),
+         {includeContent: (sourceMapType === 'inline-source-map')}
+       )))
       .pipe(rename(filename_to))
       .pipe(gulp.dest(path_to))
       .pipe(this.notify(this.report.bind(this, _src, _dest, true, list)))

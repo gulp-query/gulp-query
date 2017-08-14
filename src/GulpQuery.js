@@ -136,7 +136,7 @@ class GulpQuery {
 
     }
 
-    let DefaultTasks = []
+    let DefaultTasks = [];
     pluginsNeedRun.forEach((plugin) => {
       let pluginModule = new this._plugins[plugin](this, this._pluginsConfig[plugin]);
 
@@ -147,7 +147,7 @@ class GulpQuery {
 
       gulp.task(plugin, tasks);
 
-      DefaultTasks = DefaultTasks.concat(tasks);
+      DefaultTasks.push(plugin);
     });
 
     gulp.task('default', DefaultTasks);

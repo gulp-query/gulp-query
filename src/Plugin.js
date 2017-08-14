@@ -31,11 +31,11 @@ class Plugin {
   }
 
   plumber(d) {
-    this._GulpQuery.plumber(d);
+    return this._GulpQuery.plumber(d);
   }
 
   notify(d) {
-    this._GulpQuery.notify(d);
+    return this._GulpQuery.notify(d);
   }
 
   _initConfigs() {
@@ -58,6 +58,8 @@ class Plugin {
         }
 
         config = new_config;
+      } else {
+        config = config[0];
       }
 
       let taskName = this.constructor.method() + ':' + (config.name ? config.name : ('task-' + i));
