@@ -1,4 +1,5 @@
 const gulp = require('gulp');
+const chalk = require('chalk');
 const gulpPlumber = require('gulp-plumber');
 const gulpNotify = require('gulp-notify');
 const ThrowError = require('./ThrowError');
@@ -26,6 +27,12 @@ class GulpQuery {
 
     this._isWatching = false;
 
+    /**
+     * @type {Array<Plugin>}
+     * @private
+     */
+    this._watchPlugins = [];
+
     this._proxy = new Proxy(this, {
       get: (gq, field) => {
         if (field in gq) return gq[field]; // normal case
@@ -39,8 +46,7 @@ class GulpQuery {
     return this._proxy;
   }
 
-  plugins(plugins)
-  {
+  plugins(plugins) {
     plugins.forEach((plugin) => {
       this._plugins[plugin.method()] = plugin;
     });
@@ -48,16 +54,18 @@ class GulpQuery {
     return this._proxy;
   }
 
-  cfg()
-  {
+  cfg() {
     console.log('CFG!!');
 
     return this._proxy;
   }
 
-  isProduction()
-  {
+  isProduction() {
     return this._isProduction;
+  }
+
+  isWatching() {
+    return this._isWatching;
   }
 
   _prepareCheckParams(pluginName) {
@@ -87,7 +95,7 @@ class GulpQuery {
     }
 
     if (!this._prepareCheckParams(pluginName)) {
-        return this._proxy;
+      return this._proxy;
     }
 
     if (!args[0]) {
@@ -103,16 +111,20 @@ class GulpQuery {
     return this._proxy;
   }
 
-  run()
-  {
-
-    if (this._params.indexOf('watch') !== -1) {
-      gulp.task('watch', this.watch.bind(this));
-      this._isWatching = true;
+  run() {
+    if (this.isProduction()) {
+      console.log(chalk.white.bgGreen.bold(' >>> PRODUCTION <<< '));
     }
 
     let pluginsNeedRun = [];
     let params = [...this._params];
+
+    if (params.indexOf('watch') !== -1) {
+      params.splice(params.indexOf('watch'), 1);
+
+      gulp.task('watch', this.watch.bind(this));
+      this._isWatching = true;
+    }
 
     if (params.length === 0) {
       pluginsNeedRun = Object.keys(this._pluginsConfig);
@@ -145,6 +157,8 @@ class GulpQuery {
         gulp.task(task, pluginModule.runTask.bind(pluginModule, task));
       });
 
+      this._watchPlugins.push(pluginModule);
+
       gulp.task(plugin, tasks);
 
       DefaultTasks.push(plugin);
@@ -153,12 +167,28 @@ class GulpQuery {
     gulp.task('default', DefaultTasks);
 
     if (!this._isWatching) {
-        process.on('beforeExit', () => {
-            this.report.draw();
-        });
+      process.on('beforeExit', () => {
+        this.report.draw();
+      });
     }
   }
 
+  watch() {
+
+    this._watchPlugins.forEach((pluginModule) => {
+
+      let tasks = pluginModule.getAllTasks();
+
+      tasks.forEach((task) => {
+        let files = pluginModule.watchTaskFiles(task);
+
+        files.forEach((file) => {
+          gulp.watch(file, [task]);
+        })
+      });
+    })
+
+  }
 }
 
 module.exports = GulpQuery;

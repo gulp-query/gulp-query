@@ -1,4 +1,4 @@
-let Plugin = require('./Plugin')
+let Plugin = require('../../src/Plugin')
   , node_path = require('path')
   , sass = require('gulp-sass')
   , gulp = require('gulp')
@@ -13,7 +13,26 @@ class ScssPlugin extends Plugin {
     return 'scss';
   }
 
-  run(config, callback) {
+  watchFiles(config)
+  {
+    let path_to = this.path(config.to);
+    let path_from = this.path(config.from);
+
+    let ext = node_path.extname(path_from);
+
+    if (ext === '') {
+      ext = node_path.extname(path_to);
+    }
+
+    let files = [];
+
+    files.push(node_path.dirname(path_from) + '/' + node_path.basename(path_from, ext) + '/**/*' + ext);
+    files.push(path_from);
+
+    return files;
+  }
+
+  run(task_name, config, callback) {
 
     let full = ('full' in config ? config['full'] : false);
     let path_to = this.path(config.to);
@@ -32,11 +51,13 @@ class ScssPlugin extends Plugin {
     path_from = node_path.dirname(path_from) + '/';
 
     let filename_to = filename_from;
+
     if (node_path.extname(path_to) !== '') {
       filename_to = node_path.basename(path_to);
       path_to = node_path.dirname(path_to) + '/';
     } else {
-      filename_to = node_path.basename(filename_to, '.scss') + '.css';
+      let basename = node_path.basename(filename_to, '.scss');
+      filename_to = basename === '*' ? '' : basename + '.css';
     }
 
     let list = [];
@@ -72,9 +93,9 @@ class ScssPlugin extends Plugin {
          (sourceMapType === 'inline-source-map' ? null : '.'),
          {includeContent: (sourceMapType === 'inline-source-map')}
        )))
-      .pipe(rename(filename_to))
+      .pipe(gulpif(filename_to,rename(filename_to)))
       .pipe(gulp.dest(path_to))
-      .pipe(this.notify(this.report.bind(this, _src, _dest, true, list)))
+      .pipe(this.notify(this.report.bind(this, task_name, _src, _dest, true, list)))
       ;
 
   }

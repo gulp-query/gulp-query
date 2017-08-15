@@ -49,7 +49,7 @@ class Plugin {
         };
 
         if (config[2]) {
-          console.log(config[2]);
+
           if (typeof config[2] === 'object') {
             new_config = Object.assign({},new_config,config[2]);
           } else {
@@ -74,8 +74,24 @@ class Plugin {
     return this._GulpQuery.config.root + path;
   }
 
+  /**
+   * @returns {Array}
+   */
   getAllTasks() {
     return Object.keys(this._taskToConfig);
+  }
+
+  /**
+   * @param task_name
+   * @returns {Array}
+   */
+  watchTaskFiles(task_name)
+  {
+    if (!(task_name in this._taskToConfig)) {
+      ThrowError.make('Not found config for a task «' + task_name + '»');
+    }
+
+    return this.watchFiles(this._taskToConfig[task_name])
   }
 
   runTask(task_name, callback) {
@@ -87,7 +103,7 @@ class Plugin {
     let config = this._taskToConfig[task_name];
 
     try {
-      let _p = this.run(config, callback);
+      let _p = this.run(task_name, config, callback);
 
       if (Array.isArray(_p)) {
         return merge.apply(null, _p);
@@ -102,8 +118,20 @@ class Plugin {
     }
   }
 
-  report(src, dest, success, list) {
-    this._GulpQuery.report.add(this.constructor.method(), src, dest, success, list);
+  report(task_name, src, dest, success, list) {
+    this._GulpQuery.report.add(
+      (task_name ? task_name : this.constructor.method()),
+      src,
+      dest,
+      success,
+      list
+    );
+
+    if (this._GulpQuery.isWatching()) {
+      setTimeout(() => {
+        this._GulpQuery.report.draw();
+      },10);
+    }
   }
 
   reportError(src, dest, error) {
@@ -113,9 +141,23 @@ class Plugin {
 
   reportAlias(alias, src, dest, success, list) {
     this._GulpQuery.report.add(this.constructor.method() + '-' + alias, src, dest, success, list);
+
+    if (this._GulpQuery.isWatching()) {
+      setTimeout(() => {
+        this._GulpQuery.report.draw();
+      },10);
+    }
   }
 
-  run(config) {
+  run(task_name, config, callback) {
+
+  }
+
+  /**
+   * @param config
+   * @return {Array}
+   */
+  watchFiles(config) {
 
   }
 }

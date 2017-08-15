@@ -1,5 +1,5 @@
 let build = require('../index.js');
-let scss = require('../src/ScssPlugin');
+let scss = require('../plugins/scss');
 
 build(function(query) {
   query
