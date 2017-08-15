@@ -14,6 +14,8 @@ build(function(query) {
   //     //   '../node_modules/compass-mixins/lib/',
   //     // ]
   //   })
-    .scss("scss/test_scss.scss","css/n.css",'qw')
+  //   .scss("scss/test_scss.scss","css/n.css",'test')
+     .scss("scss/app.scss","css/",'app')
+//    .scss("scss/*.scss","css/",'tt')
   ;
 });
