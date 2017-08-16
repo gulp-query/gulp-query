@@ -82,7 +82,7 @@ class ScssPlugin extends Plugin {
     let _dest = path_to + filename_to;
 
     return gulp.src(_src)
-      .pipe(this.plumber(this.reportError.bind(this, _src, _dest)))
+      .pipe(this.plumber(this.reportError.bind(this, task_name, _src, _dest)))
       .pipe(gulpif(sourceMap, sourcemaps.init()))
       .pipe(sass({
         //outputStyle: (CocktailOfTasks.isProduction && !full ? 'compressed' : 'expanded'),

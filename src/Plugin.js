@@ -134,9 +134,9 @@ class Plugin {
     }
   }
 
-  reportError(src, dest, error) {
+  reportError(task_name, src, dest, error) {
     console.log(error.toString());
-    this.report(src, dest, false);
+    this.report(task_name, src, dest, false);
   }
 
   reportAlias(alias, src, dest, success, list) {
