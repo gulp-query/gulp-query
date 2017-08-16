@@ -91,7 +91,7 @@ class StylesPlugin extends Plugin {
                 !full && this.isProduction(),
                 cssnano({
                     autoprefixer: {
-                        browsers: ['last 10 versions'],
+                        browsers: ["> 1%", "last 2 versions"],
                         add: true
                     }
                 })

@@ -4,6 +4,7 @@ let Plugin = require('../../src/Plugin')
   , gulp = require('gulp')
   , gulpif = require('gulp-if')
   , rename = require('gulp-rename')
+  , cssnano = require("gulp-cssnano")
   , sourcemaps = require('gulp-sourcemaps')
 ;
 
@@ -13,8 +14,7 @@ class ScssPlugin extends Plugin {
     return 'scss';
   }
 
-  watchFiles(config)
-  {
+  watchFiles(config) {
     let path_to = this.path(config.to);
     let path_from = this.path(config.from);
 
@@ -85,15 +85,23 @@ class ScssPlugin extends Plugin {
       .pipe(this.plumber(this.reportError.bind(this, task_name, _src, _dest)))
       .pipe(gulpif(sourceMap, sourcemaps.init()))
       .pipe(sass({
-        //outputStyle: (CocktailOfTasks.isProduction && !full ? 'compressed' : 'expanded'),
         outputStyle: 'expanded',
         includePaths: includePaths
       }).on('error', sass.logError))
-       .pipe(gulpif(sourceMap, sourcemaps.write(
-         (sourceMapType === 'inline-source-map' ? null : '.'),
-         {includeContent: (sourceMapType === 'inline-source-map')}
-       )))
-      .pipe(gulpif(filename_to,rename(filename_to)))
+      .pipe(gulpif(
+        !full && this.isProduction(),
+        cssnano({
+          autoprefixer: {
+            browsers: ["> 1%", "last 2 versions"],
+            add: true
+          }
+        })
+      ))
+      .pipe(gulpif(sourceMap, sourcemaps.write(
+        (sourceMapType === 'inline-source-map' ? null : '.'),
+        {includeContent: (sourceMapType === 'inline-source-map')}
+      )))
+      .pipe(gulpif(filename_to, rename(filename_to)))
       .pipe(gulp.dest(path_to))
       .pipe(this.notify(this.report.bind(this, task_name, _src, _dest, true, list)))
       ;
