@@ -24,6 +24,6 @@ build(function(query) {
 //    .scss("scss/*.scss","css/",'tt')
     //.styles(['1.css','2.css'],'css/12.css',{parent_folder:'css_source/'})
     //.copy(['css_source/1.css','css_source/2.css'],'css/copy_12.css')
-    .js('js_source/app.js','js/app.js')
+    .js(['js_source/admin.js','js_source/app.js'],'js/')
   ;
 });

@@ -1,5 +1,7 @@
 const ThrowError = require('./ThrowError');
-let merge = require('merge-stream');
+let merge = require('merge-stream')
+  , node_path = require('path')
+;
 
 class Plugin {
 
@@ -158,7 +160,27 @@ class Plugin {
    * @return {Array}
    */
   watchFiles(config) {
+    let parent_folder = 'parent_folder' in config ? config.parent_folder : null;
+    if (!Array.isArray(config.from)) {
+      config.from = [config.from];
+    }
 
+    let from = [];
+    config.from.forEach((path) => {
+      from.push(
+        this.path(parent_folder ? (parent_folder + path) : path)
+      );
+    });
+
+    let ext = node_path.extname(config.from[0]);
+    let files = [];
+
+    from.forEach((path_from) => {
+      files.push(node_path.dirname(path_from) + '/' + node_path.basename(path_from, ext) + '/**/*' + ext);
+      files.push(path_from);
+    });
+
+    return files;
   }
 }
 

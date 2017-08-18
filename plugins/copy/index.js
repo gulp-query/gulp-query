@@ -26,21 +26,8 @@ class CopyPlugin extends Plugin {
   }
 
   watchFiles(config) {
-    let path_to = this.path(config.to);
-    let path_from = this.path(config.from);
 
-    let ext = node_path.extname(path_from);
-
-    if (ext === '') {
-      ext = node_path.extname(path_to);
-    }
-
-    let files = [];
-
-    files.push(node_path.dirname(path_from) + '/' + node_path.basename(path_from, ext) + '/**/*' + ext);
-    files.push(path_from);
-
-    return files;
+    return [];
   }
 
   run(task_name, config, callback) {
