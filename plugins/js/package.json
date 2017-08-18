@@ -1,5 +1,5 @@
 {
-  "name": "gulp-query-styles",
+  "name": "gulp-query-js",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,10 +9,12 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "babel-core": "^6.26.0",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
-    "gulp-cssnano": "^2.1.2",
     "gulp-if": "^2.0.2",
-    "gulp-sourcemaps": "^2.6.1"
+    "gulp-uglify": "^3.0.0",
+    "babel-preset-env": "^1.6.0",
+    "gulp-babel": "^7.0.0"
   }
 }

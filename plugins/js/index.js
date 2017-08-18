@@ -1,16 +1,17 @@
 let Plugin = require('../../src/Plugin')
   , node_path = require('path')
+  , babel = require('gulp-babel')
+  , uglify = require('gulp-uglify')
   , gulp = require('gulp')
   , gulpif = require('gulp-if')
   , concat = require("gulp-concat")
-  , cssnano = require("gulp-cssnano")
   , sourcemaps = require('gulp-sourcemaps')
 ;
 
-class StylesPlugin extends Plugin {
+class JsPlugin extends Plugin {
 
   static method() {
-    return 'styles';
+    return 'js';
   }
 
   watchFiles(config) {
@@ -49,7 +50,6 @@ class StylesPlugin extends Plugin {
     let full = ('full' in config ? config['full'] : false);
     let path_to = this.path(config.to);
     let parent_folder = 'parent_folder' in config ? config.parent_folder : null;
-
     if (!Array.isArray(config.from)) {
       config.from = [config.from];
     }
@@ -68,7 +68,6 @@ class StylesPlugin extends Plugin {
     if (this.isProduction()) {
       sourceMap = false;
     }
-
 
     let concat_name, copy_to;
 
@@ -101,28 +100,23 @@ class StylesPlugin extends Plugin {
     let _src = from;
     let _dest = copy_to + concat_name;
 
-    return gulp.src(from)
-            .pipe(this.plumber(this.reportError.bind(this,task_name,_src, _dest)))
-            .pipe(gulpif(sourceMap, sourcemaps.init()))
-            .pipe(gulpif(!!concat_name, concat(concat_name)))
-            .pipe(gulpif(
-                !full && this.isProduction(),
-                cssnano({
-                    autoprefixer: {
-                        browsers: ["> 1%", "last 2 versions"],
-                        add: true
-                    }
-                })
-            ))
-            .pipe(gulpif(sourceMap, sourcemaps.write(
-                (sourceMapType === 'inline-source-map' ? null : '.'),
-                {includeContent: (sourceMapType === 'inline-source-map')}
-            )))
-            .pipe(gulp.dest(copy_to))
-            .pipe(this.notify(this.report.bind(this,task_name, _src, _dest, true, list)))
-            ;
+    return gulp.src(_src)
+      .pipe(this.plumber(this.reportError.bind(this, task_name, _src, _dest)))
+      .pipe(gulpif(sourceMap, sourcemaps.init()))
+      .pipe(gulpif(!!concat_name, concat(concat_name)))
+      .pipe(babel({
+        presets: ['env']
+      }))
+      .pipe(gulpif(!full && this.isProduction(), uglify()))
+      .pipe(gulpif(sourceMap, sourcemaps.write(
+        (sourceMapType === 'inline-source-map' ? null : '.'),
+        {includeContent: (sourceMapType === 'inline-source-map')}
+      )))
+      .pipe(gulp.dest(path_to))
+      .pipe(this.notify(this.report.bind(this, task_name, _src, _dest, true, list)))
+      ;
 
   }
 }
 
-module.exports = StylesPlugin;
+module.exports = JsPlugin;
