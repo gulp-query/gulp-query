@@ -9,8 +9,7 @@ class WebpackPlugin extends Plugin {
     return 'webpack';
   }
 
-  webpackConfig()
-  {
+  webpackConfig() {
     return {
       //debug: true,
       entry: null,
@@ -67,7 +66,14 @@ class WebpackPlugin extends Plugin {
           {
             loader: 'buble-loader',
             options: {
-              presets: ['env']
+              cacheDirectory: true,
+              presets: ['env', {
+                modules: false,
+                targets: {
+                  browsers: ['> 2%'],
+                  uglify: true
+                }
+              }]
             }
           }
         ]
