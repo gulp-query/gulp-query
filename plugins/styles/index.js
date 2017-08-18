@@ -30,7 +30,7 @@ class StylesPlugin extends Plugin {
       );
     });
 
-    let sourceMap = ('source_map' in config ? config['source_map'] : false);
+    let sourceMap = ('source_map' in config ? config['source_map'] : true);
     let sourceMapType = ('source_map_type' in config ? config['source_map_type'] : 'inline');
     sourceMapType = sourceMapType === 'inline' ? 'inline-source-map' : 'source-map';
 

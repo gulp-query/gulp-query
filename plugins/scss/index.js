@@ -21,7 +21,7 @@ class ScssPlugin extends Plugin {
     let path_from = this.path(config.from);
     let includePaths = 'includePaths' in config ? config['includePaths'] : [];
 
-    let sourceMap = ('source_map' in config ? config['source_map'] : false);
+    let sourceMap = ('source_map' in config ? config['source_map'] : true);
     let sourceMapType = ('source_map_type' in config ? config['source_map_type'] : 'inline');
     sourceMapType = sourceMapType === 'inline' ? 'inline-source-map' : 'source-map';
 
@@ -32,7 +32,7 @@ class ScssPlugin extends Plugin {
     let filename_from = node_path.basename(path_from);
     path_from = node_path.dirname(path_from) + '/';
 
-    let filename_to = filename_from;
+    let filename_to;
 
     if (node_path.extname(path_to) !== '') {
       filename_to = node_path.basename(path_to);
@@ -83,7 +83,7 @@ class ScssPlugin extends Plugin {
         (sourceMapType === 'inline-source-map' ? null : '.'),
         {includeContent: (sourceMapType === 'inline-source-map')}
       )))
-      .pipe(gulpif(filename_to, rename(filename_to)))
+      .pipe(gulpif(!!filename_to, rename(filename_to)))
       .pipe(gulp.dest(path_to))
       .pipe(this.notify(this.report.bind(this, task_name, _src, _dest, true, list)))
       ;
