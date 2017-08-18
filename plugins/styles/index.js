@@ -4,6 +4,7 @@ let Plugin = require('../../src/Plugin')
   , gulpif = require('gulp-if')
   , concat = require("gulp-concat")
   , cssnano = require("gulp-cssnano")
+  , sourcemaps = require('gulp-sourcemaps')
 ;
 
 class StylesPlugin extends Plugin {
@@ -65,8 +66,16 @@ class StylesPlugin extends Plugin {
       concat_name = node_path.basename(path_to);
       copy_to = node_path.dirname(path_to) + '/'
     }
-
+    console.log(concat_name);
     let list = [];
+
+    if (concat_name) {
+      list.push('Concat');
+    }
+
+    if (this.isProduction() && !full) {
+      list.push('Compress');
+    }
 
     if (sourceMap) {
       if (sourceMapType === 'source-map') {
@@ -76,17 +85,13 @@ class StylesPlugin extends Plugin {
       }
     }
 
-    if (this.isProduction() && !full) {
-      list.push('Compress');
-    }
-
     let _src = from;
     let _dest = copy_to + concat_name;
 
     return gulp.src(from)
             .pipe(this.plumber(this.reportError.bind(this,task_name,_src, _dest)))
             .pipe(gulpif(sourceMap, sourcemaps.init()))
-            .pipe(gulpif(concat_name, concat(concat_name)))
+            .pipe(gulpif(!!concat_name, concat(concat_name)))
             .pipe(gulpif(
                 !full && this.isProduction(),
                 cssnano({
@@ -100,11 +105,11 @@ class StylesPlugin extends Plugin {
                 (sourceMapType === 'inline-source-map' ? null : '.'),
                 {includeContent: (sourceMapType === 'inline-source-map')}
             )))
-            .pipe(this.gulp.dest(copy_to))
+            .pipe(gulp.dest(copy_to))
             .pipe(this.notify(this.report.bind(this,task_name, _src, _dest, true, list)))
             ;
 
   }
 }
 
-module.exports = ScssPlugin;
+module.exports = StylesPlugin;
