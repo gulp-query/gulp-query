@@ -79,8 +79,8 @@ class JsPlugin extends Plugin {
     return gulp.src(_src)
       .pipe(this.plumber(this.reportError.bind(this, task_name, _src, _dest)))
       .pipe(gulpif(sourceMap, sourcemaps.init()))
-      .pipe(gulpif(!!concat_name, concat(concat_name || 'empty')))
       .pipe(babel(babelrc))
+      .pipe(gulpif(!!concat_name, concat(concat_name || 'empty')))
       .pipe(gulpif(!full && this.isProduction(), uglify()))
       .pipe(gulpif(sourceMap, sourcemaps.write(
         (sourceMapType === 'inline-source-map' ? null : '.'),

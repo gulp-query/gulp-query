@@ -2,7 +2,7 @@ let build = require('../index.js');
 // let scss = require('../plugins/scss');
 // let copy = require('../plugins/copy');
 // let styles = require('../plugins/styles');
-// let js = require('../plugins/js');
+//let js = require('../plugins/js');
 let webpack = require('../plugins/webpack');
 
 build(function(query) {
@@ -31,7 +31,10 @@ build(function(query) {
     //.scss("scss/*.scss","css/",'tt')
     //.styles(['1.css','2.css'],'css/12.css',{parent_folder:'css_source/'})
     //.copy(['css_source/1.css', 'css_source/2.css'], 'css/copy_12.css')
+
     //.js(['js_source/admin.js', 'js_source/app.js'], 'js/full.js')
+    //.js('js_source/app.js', 'js/app.js')
+
     .webpack('js_source/w.js', 'js/w.compile.js')
   ;
 });

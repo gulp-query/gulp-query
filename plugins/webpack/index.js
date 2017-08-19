@@ -62,21 +62,13 @@ class WebpackPlugin extends Plugin {
       myDevConfigMin.module.rules.push({
         test: /\.jsx?$/,
         exclude: [/node_modules/, /public/],
-        use: [
-          {
-            loader: 'buble-loader',
-            options: {
-              cacheDirectory: true,
-              presets: ['env', {
-                modules: false,
-                targets: {
-                  browsers: ['> 2%'],
-                  uglify: true
-                }
-              }]
-            }
+        use: {
+          loader: require.resolve('babel-loader'),
+          options: {
+            cacheDirectory: true,
+            presets: [require.resolve('babel-preset-env')]
           }
-        ]
+        }
       });
 
       if (!full && this.isProduction()) {
@@ -88,8 +80,6 @@ class WebpackPlugin extends Plugin {
           new webpack.optimize.UglifyJsPlugin({
             sourceMap: sourceMap
           }),
-          // new webpack.optimize.DedupePlugin(),
-          // new webpack.optimize.UglifyJsPlugin()
         ];
       }
 
@@ -114,10 +104,14 @@ class WebpackPlugin extends Plugin {
 
     WebpackPlugin.storage[storage_name].run((err, stats) => {
       if (err) {
-        this.report(task_name, _src, _dest, false);
+        this.reportError(task_name, _src, _dest, false);
         console.log(err);
       } else {
         this.report(task_name, _src, _dest, true, list);
+        // console.log(stats.toString({
+        //   chunks: false,  // Makes the build much quieter
+        //   colors: true    // Shows colors in the console
+        // }));
       }
 
       if (callback) {
