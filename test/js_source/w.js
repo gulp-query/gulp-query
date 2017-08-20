@@ -1,5 +1,7 @@
 export {q} from './w/q.js';
 
+import styles from '../scss/app.scss';
+
 class W {
 
   constructor()

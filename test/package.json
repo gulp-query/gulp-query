@@ -1,0 +1,11 @@
+{
+  "name": "gulp-query-test",
+  "version": "1.0.0",
+  "main": "gulpgile.js",
+  "license": "MIT",
+  "dependencies": {
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "react": "^15.6.1"
+  }
+}

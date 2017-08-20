@@ -23,12 +23,25 @@ class WebpackPlugin extends Plugin {
     };
   }
 
+  babelrc() {
+    return {
+      cacheDirectory: true,
+      presets: ['babel-preset-env'].map(require.resolve)
+    }
+  }
+
   run(task_name, config, callback) {
     let full = 'full' in config ? config['full'] : false;
     //let babel = 'babel' in config ? config['babel'] : true;
     let sourceMap = 'source_map' in config ? config['source_map'] : true;
     let sourceMapType = 'source_map_type' in config ? config['source_map_type'] : 'inline';
     sourceMapType = sourceMapType === 'inline' ? 'inline-source-map' : 'source-map';
+
+    let babelrc = this.babelrc();
+
+    if ('babel' in config) {
+      babelrc = config['babel'];
+    }
 
     if (this.isProduction()) {
       sourceMap = false;
@@ -49,7 +62,6 @@ class WebpackPlugin extends Plugin {
     }
 
     if (!(storage_name in WebpackPlugin.storage)) {
-      //var myDevConfigMin = Object.create(webpackConfig);
       let myDevConfigMin = this.webpackConfig();
       myDevConfigMin.entry = path_from + filename_from;
       myDevConfigMin.output.path = path_to;
@@ -57,18 +69,29 @@ class WebpackPlugin extends Plugin {
 
       if (sourceMap) {
         myDevConfigMin.devtool = sourceMapType;
+      } else {
+        myDevConfigMin.devtool = false;
       }
 
       myDevConfigMin.module.rules.push({
         test: /\.jsx?$/,
-        exclude: [/node_modules/, /public/],
+        exclude: [/node_modules/, /public/, new RegExp(path_to)],
         use: {
           loader: require.resolve('babel-loader'),
-          options: {
-            cacheDirectory: true,
-            presets: [require.resolve('babel-preset-env')]
-          }
+          options: babelrc
         }
+      });
+
+      myDevConfigMin.module.rules.push({
+        test: /\.css$/,
+        exclude: [/node_modules/, /public/, new RegExp(path_to)],
+        loaders: ['style-loader', 'css-loader'].map(require.resolve)
+      });
+
+      myDevConfigMin.module.rules.push({
+        test: /\.s[ac]ss$/,
+        exclude: [/node_modules/, /public/, new RegExp(path_to)],
+        loaders: ['style-loader', 'css-loader', 'sass-loader'].map(require.resolve)
       });
 
       if (!full && this.isProduction()) {

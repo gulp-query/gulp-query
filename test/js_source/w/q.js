@@ -1,3 +1,7 @@
 export function q(a) {
-  return a *2;
+  return (
+    <div>
+      asd
+    </div>
+  );
 }
