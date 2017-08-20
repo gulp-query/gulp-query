@@ -3,8 +3,9 @@ let build = require('../index.js');
 // let copy = require('../plugins/copy');
 // let styles = require('../plugins/styles');
 //let js = require('../plugins/js');
-let webpack = require('../plugins/webpack');
-let compress = require('../plugins/compress');
+//let webpack = require('../plugins/webpack');
+//let compress = require('../plugins/compress');
+let sprite = require('../plugins/sprite');
 
 build(function(query) {
   query
@@ -13,7 +14,8 @@ build(function(query) {
       // , copy
       // , styles
       //, webpack
-      , compress
+      //, compress
+      , sprite
       //, js
     ])
     // SCSS
@@ -38,9 +40,19 @@ build(function(query) {
     //.js('js_source/app.js', 'js/app.js')
 
     //.webpack('js_source/w.js', 'js/w.compile.js')
-    .compress([
-      {from:'images_source/auth/*.png',to: 'auth/'},
-      {from:'images_source/watch/*',to: 'watch/'},
-    ], 'images/')
+    // .compress([
+    //   {from:'images_source/auth/*.png',to: 'auth/'},
+    //   {from:'images_source/watch/*',to: 'watch/'},
+    // ], 'images/')
+    .sprite([
+      "images_source/watch/*.jpg",
+      "images_source/auth/*.png"
+    ], {
+      images: "images/",
+      css: "json/"
+    }, {
+      extension: "json",
+      format: "json_texture"
+    })
   ;
 });
