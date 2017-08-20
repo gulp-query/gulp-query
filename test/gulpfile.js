@@ -4,6 +4,7 @@ let build = require('../index.js');
 // let styles = require('../plugins/styles');
 //let js = require('../plugins/js');
 let webpack = require('../plugins/webpack');
+let compress = require('../plugins/compress');
 
 build(function(query) {
   query
@@ -11,7 +12,8 @@ build(function(query) {
       // scss
       // , copy
       // , styles
-      , webpack
+      //, webpack
+      , compress
       //, js
     ])
     // SCSS
@@ -35,6 +37,10 @@ build(function(query) {
     //.js(['js_source/admin.js', 'js_source/app.js'], 'js/full.js')
     //.js('js_source/app.js', 'js/app.js')
 
-    .webpack('js_source/w.js', 'js/w.compile.js')
+    //.webpack('js_source/w.js', 'js/w.compile.js')
+    .compress([
+      {from:'images_source/auth/*.png',to: 'auth/'},
+      {from:'images_source/watch/*',to: 'watch/'},
+    ], 'images/')
   ;
 });
