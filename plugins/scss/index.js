@@ -38,7 +38,7 @@ class ScssPlugin extends Plugin {
       filename_to = node_path.basename(path_to);
       path_to = node_path.dirname(path_to) + '/';
     } else {
-      let basename = node_path.basename(filename_to, '.scss');
+      let basename = node_path.basename(filename_from, '.scss');
       filename_to = basename === '*' ? '' : basename + '.css';
     }
 
