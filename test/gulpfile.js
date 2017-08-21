@@ -4,11 +4,12 @@ let build = require('../index.js');
 // let styles = require('../plugins/styles');
 // let js = require('../plugins/js');
 //let webpack = require('../plugins/webpack');
-let webpack = require('../plugins/webpack-buble');
+//let webpack = require('../plugins/webpack-buble');
 //let compress = require('../plugins/compress');
 //let sprite = require('../plugins/sprite');
 //let pug = require('../plugins/pug');
 //let js = require('../plugins/js-buble');
+let rollup = require('../plugins/rollup');
 
 build(function(query) {
   query
@@ -16,7 +17,8 @@ build(function(query) {
       // scss
       // , copy
       //, styles
-      , webpack
+      //, webpack
+      , rollup
       //, compress
       //, sprite
       //, js
@@ -49,7 +51,9 @@ build(function(query) {
     //.pug('views/*.pug', 'html/')
 
     //.webpack('js_source/w.js', 'js/w.compile.js')
-    .webpack('js_source/wb.js', 'js/wb.compile.js')
+    //.webpack('js_source/wb.js', 'js/wb.compile.js')
+
+    .rollup('js_source/r.js', 'js/r.js')
 
     // .compress([
     //   {from:'images_source/auth/*.png',to: 'auth/'},

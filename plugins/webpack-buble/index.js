@@ -117,10 +117,10 @@ class WebpackPlugin extends Plugin {
         console.log(err);
       } else {
         this.report(task_name, _src, _dest, true, list);
-        console.log(stats.toString({
-          chunks: false,  // Makes the build much quieter
-          colors: true    // Shows colors in the console
-        }));
+        // console.log(stats.toString({
+        //   chunks: false,  // Makes the build much quieter
+        //   colors: true    // Shows colors in the console
+        // }));
       }
 
       if (callback) {
