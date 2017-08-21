@@ -3,6 +3,12 @@ let Plugin = require('../../src/Plugin')
   , file = require('gulp-file')
   , gulp = require('gulp')
   , rollup = require('rollup').rollup
+  , buble = require('rollup-plugin-buble')
+  , nodeResolve = require('rollup-plugin-node-resolve')
+  , commonjs = require('rollup-plugin-commonjs')
+  , uglify = require('rollup-plugin-uglify')
+  , minify  = require('uglify-es').minify
+
 ;
 
 let cache;
@@ -55,15 +61,26 @@ class RollupPlugin extends Plugin {
       if (name) {
         moduleName = name;
       } else {
-        moduleName = node_path.basename(filename_to,'.js');
+        moduleName = node_path.basename(filename_to, '.js');
         moduleName = moduleName[0].toUpperCase() + moduleName.slice(1);
       }
     }
 
     return rollup({
-        input: _src,
-        cache: cache
-      })
+      input: _src,
+      plugins: [
+        nodeResolve({browser: true, main: true, jsnext: true}),
+        // commonjs({
+        //   include: [
+        //     'node_modules/**',
+        //     path_from + '**'
+        //   ]
+        // }),
+        buble()
+        , this.isProduction() && uglify({}, minify)
+      ],
+      cache: cache
+    })
       .then((bundle) => {
         cache = bundle;
         return bundle.generate({
