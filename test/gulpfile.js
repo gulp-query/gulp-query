@@ -1,5 +1,6 @@
 let build = require('../index.js');
 // let scss = require('../plugins/scss');
+let scss = require('../plugins/scss-images');
 // let copy = require('../plugins/copy');
 // let styles = require('../plugins/styles');
 // let js = require('../plugins/js');
@@ -9,16 +10,16 @@ let build = require('../index.js');
 //let sprite = require('../plugins/sprite');
 //let pug = require('../plugins/pug');
 //let js = require('../plugins/js-buble');
-let rollup = require('../plugins/rollup');
+//let rollup = require('../plugins/rollup');
 
 build(function(query) {
   query
     .plugins([
-      // scss
+      scss
       // , copy
       //, styles
       //, webpack
-      , rollup
+      //, rollup
       //, compress
       //, sprite
       //, js
@@ -36,10 +37,11 @@ build(function(query) {
     //   })
     //.scss("scss/test_scss.scss", "css/n.css", 'test')
     //.scss("scss/app.scss", "css/", 'app')
+    .scss("scss/images.scss", "css/")
+
     //.copy(['scss/app.scss','scss/test_scss.scss'],"cs/t.scss")
     //.copy('scss/**/*',"css/o/")
     //.copy(['css_source/1.css', 'css_source/2.css'], 'css/copy_12.css')
-    //.scss("scss/*.scss","css/",'tt')
 
     //.styles(['1.css','2.css'],'css/12.css',{parent_folder:'css_source/'})
     //.styles('css_source/*.css','css/')
@@ -53,7 +55,7 @@ build(function(query) {
     //.webpack('js_source/w.js', 'js/w.compile.js')
     //.webpack('js_source/wb.js', 'js/wb.compile.js')
 
-    .rollup('js_source/r.js', 'js/r.js')
+    //.rollup('js_source/r.js', 'js/r.js')
 
     // .compress([
     //   {from:'images_source/auth/*.png',to: 'auth/'},

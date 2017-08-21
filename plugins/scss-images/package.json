@@ -10,6 +10,8 @@
   "license": "MIT",
   "dependencies": {
     "gulp": "^3.9.1",
+    "gulp-css-assetus": "^1.1.3",
+    "gulp-css-spritus": "^1.5.2",
     "gulp-cssnano": "^2.1.2",
     "gulp-if": "^2.0.2",
     "gulp-rename": "^1.2.2",
