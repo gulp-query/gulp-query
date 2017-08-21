@@ -65,7 +65,9 @@ class PugPlugin extends Plugin {
 
     return gulp.src(_src)
       .pipe(this.plumber(this.reportError.bind(this, task_name, _src, _dest)))
-      .pipe(pug())
+      .pipe(pug({
+        pretty: !this.isProduction()
+      }))
       .pipe(gulp.dest(_dest))
       .pipe(this.notify(reportFunc))
       ;
