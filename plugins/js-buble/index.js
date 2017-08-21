@@ -1,7 +1,7 @@
 let Plugin = require('../../src/Plugin')
   , node_path = require('path')
   , glob = require('glob')
-  , babel = require('gulp-babel')
+  , buble = require('gulp-buble')
   , uglify = require('gulp-uglify')
   , gulp = require('gulp')
   , gulpif = require('gulp-if')
@@ -9,7 +9,7 @@ let Plugin = require('../../src/Plugin')
   , sourcemaps = require('gulp-sourcemaps')
 ;
 
-class JsPlugin extends Plugin {
+class JsBublePlugin extends Plugin {
 
   static method() {
     return 'js';
@@ -35,13 +35,6 @@ class JsPlugin extends Plugin {
     let full = ('full' in config ? config['full'] : false);
     let path_to = this.path(config.to);
     let parent_folder = 'parent_folder' in config ? config.parent_folder : null;
-    let babelrc = {
-      presets: ['babel-preset-env'].map(require.resolve)
-    };
-
-    if ('babel' in config) {
-      babelrc = config['babel'];
-    }
 
     let concat_name, copy_to;
     if (!node_path.extname(path_to)) {
@@ -116,7 +109,7 @@ class JsPlugin extends Plugin {
     return gulp.src(_src)
       .pipe(this.plumber(this.reportError.bind(this, task_name, _src, _dest)))
       .pipe(gulpif(sourceMap, sourcemaps.init()))
-      .pipe(babel(babelrc))
+      .pipe(buble())
       .pipe(gulpif(!!concat_name, concat(concat_name || 'empty')))
       .pipe(gulpif(!full && this.isProduction(), uglify()))
       .pipe(gulpif(sourceMap, sourcemaps.write(
@@ -150,4 +143,4 @@ class JsPlugin extends Plugin {
   }
 }
 
-module.exports = JsPlugin;
+module.exports = JsBublePlugin;

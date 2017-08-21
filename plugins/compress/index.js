@@ -21,7 +21,7 @@ class CompressPlugin extends Plugin {
     super(GulpQuery, configs);
 
     /**
-     * @type {Object.<String,{src: Array, to: String, completeAmount: Number}>}
+     * @type {Object.<String,{from: Array, to: String, completeAmount: Number}>}
      * @private
      */
     this._reportsOfCompress = {};

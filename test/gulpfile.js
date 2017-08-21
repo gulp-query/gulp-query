@@ -6,7 +6,8 @@ let build = require('../index.js');
 //let webpack = require('../plugins/webpack');
 //let compress = require('../plugins/compress');
 //let sprite = require('../plugins/sprite');
-let pug = require('../plugins/pug');
+//let pug = require('../plugins/pug');
+let js = require('../plugins/js-buble');
 
 build(function(query) {
   query
@@ -17,8 +18,8 @@ build(function(query) {
       //, webpack
       //, compress
       //, sprite
-      //, js
-      , pug
+      , js
+      //, pug
     ])
     // SCSS
     //   .scss({
@@ -41,10 +42,10 @@ build(function(query) {
     //.styles('css_source/*.css','css/')
     //.styles('css_source/*.css','css/big.css')
 
-    //.js(['js_source/admin.js', 'js_source/app.js'], 'js/full.js')
+    .js(['js_source/admin.js', 'js_source/app.js'], 'js/full.js')
     //.js('js_source/*', 'js/')
 
-    .pug('views/*.pug', 'html/')
+    //.pug('views/*.pug', 'html/')
 
     //.webpack('js_source/w.js', 'js/w.compile.js')
 
