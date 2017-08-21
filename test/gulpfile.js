@@ -4,10 +4,11 @@ let build = require('../index.js');
 // let styles = require('../plugins/styles');
 // let js = require('../plugins/js');
 //let webpack = require('../plugins/webpack');
+let webpack = require('../plugins/webpack-buble');
 //let compress = require('../plugins/compress');
 //let sprite = require('../plugins/sprite');
 //let pug = require('../plugins/pug');
-let js = require('../plugins/js-buble');
+//let js = require('../plugins/js-buble');
 
 build(function(query) {
   query
@@ -15,10 +16,10 @@ build(function(query) {
       // scss
       // , copy
       //, styles
-      //, webpack
+      , webpack
       //, compress
       //, sprite
-      , js
+      //, js
       //, pug
     ])
     // SCSS
@@ -42,12 +43,13 @@ build(function(query) {
     //.styles('css_source/*.css','css/')
     //.styles('css_source/*.css','css/big.css')
 
-    .js(['js_source/admin.js', 'js_source/app.js'], 'js/full.js')
+    //.js(['js_source/admin.js', 'js_source/app.js'], 'js/full.js')
     //.js('js_source/*', 'js/')
 
     //.pug('views/*.pug', 'html/')
 
     //.webpack('js_source/w.js', 'js/w.compile.js')
+    .webpack('js_source/wb.js', 'js/wb.compile.js')
 
     // .compress([
     //   {from:'images_source/auth/*.png',to: 'auth/'},

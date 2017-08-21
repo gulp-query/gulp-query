@@ -1,5 +1,5 @@
 {
-    "name": "gulp-query-webpack",
+    "name": "gulp-query-webpack-buble",
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
@@ -9,9 +9,7 @@
     "author": "",
     "license": "MIT",
     "dependencies": {
-        "babel-core": "^6.26.0",
-        "babel-loader": "^7.1.1",
-        "babel-preset-env": "^1.6.0",
+        "buble-loader": "^0.4.1",
         "css-loader": "^0.28.5",
         "gulp": "^3.9.1",
         "sass-loader": "^6.0.6",
