@@ -1,0 +1,22 @@
+block vars
+    - var title = '';
+
+doctype html
+html(lang="ru")
+    head
+        title=title || 'Default Title1'
+        meta(http-equiv='content-language', content='ru')
+        meta(charset='utf-8')
+        meta(http-equiv='X-UA-Compatible', content='IE=edge')
+        meta(name='viewport', content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no')
+        meta(name='MobileOptimized', content='176')
+        meta(name='HandheldFriendly', content='True')
+        link#page_favicon(href='favicon.png', rel='icon', type='image/x-icon')
+        block styles
+            link(href='css/app.css?v2' type='text/css' media='screen' rel='stylesheet')
+    body
+        include includes/_header.pug
+        block content
+        block scripts
+            script(src='js/jquery.min.js')
+            script(src='js/app.js')

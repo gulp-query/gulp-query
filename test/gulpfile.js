@@ -1,22 +1,24 @@
 let build = require('../index.js');
 // let scss = require('../plugins/scss');
 // let copy = require('../plugins/copy');
-let styles = require('../plugins/styles');
-let js = require('../plugins/js');
+// let styles = require('../plugins/styles');
+// let js = require('../plugins/js');
 //let webpack = require('../plugins/webpack');
 //let compress = require('../plugins/compress');
 //let sprite = require('../plugins/sprite');
+let pug = require('../plugins/pug');
 
 build(function(query) {
   query
     .plugins([
       // scss
       // , copy
-      , styles
+      //, styles
       //, webpack
       //, compress
       //, sprite
-      , js
+      //, js
+      , pug
     ])
     // SCSS
     //   .scss({
@@ -37,10 +39,12 @@ build(function(query) {
 
     //.styles(['1.css','2.css'],'css/12.css',{parent_folder:'css_source/'})
     //.styles('css_source/*.css','css/')
-    .styles('css_source/*.css','css/big.css')
+    //.styles('css_source/*.css','css/big.css')
 
     //.js(['js_source/admin.js', 'js_source/app.js'], 'js/full.js')
-    .js('js_source/*', 'js/')
+    //.js('js_source/*', 'js/')
+
+    .pug('views/*.pug', 'html/')
 
     //.webpack('js_source/w.js', 'js/w.compile.js')
 
