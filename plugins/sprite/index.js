@@ -74,7 +74,7 @@ class SpritePlugin extends Plugin {
       }
     };
 
-    ['png', 'jpg'].forEach(function(c) {
+    ['png', 'jpg'].forEach((c) => {
       if (!(c in config)) return;
 
       let _ci;
