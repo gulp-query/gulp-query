@@ -122,7 +122,7 @@ class GulpQuery {
     if (params.indexOf('watch') !== -1) {
       params.splice(params.indexOf('watch'), 1);
 
-      gulp.task('watch', this.watch.bind(this));
+      gulp.task('watch', ['default'], this.watch.bind(this));
       this._isWatching = true;
     }
 

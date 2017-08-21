@@ -1,7 +1,7 @@
 let build = require('../index.js');
 // let scss = require('../plugins/scss');
 // let copy = require('../plugins/copy');
-//let styles = require('../plugins/styles');
+let styles = require('../plugins/styles');
 let js = require('../plugins/js');
 //let webpack = require('../plugins/webpack');
 //let compress = require('../plugins/compress');
@@ -12,7 +12,7 @@ build(function(query) {
     .plugins([
       // scss
       // , copy
-      //, styles
+      , styles
       //, webpack
       //, compress
       //, sprite
@@ -37,7 +37,7 @@ build(function(query) {
 
     //.styles(['1.css','2.css'],'css/12.css',{parent_folder:'css_source/'})
     //.styles('css_source/*.css','css/')
-    //.styles('css_source/*.css','css/big.css')
+    .styles('css_source/*.css','css/big.css')
 
     //.js(['js_source/admin.js', 'js_source/app.js'], 'js/full.js')
     .js('js_source/*', 'js/')
