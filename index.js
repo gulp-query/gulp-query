@@ -13,3 +13,5 @@ module.exports = function(callback) {
   callback.call(null, t);
   t.run();
 };
+
+module.exports.Plugin = require('./src/Plugin');
