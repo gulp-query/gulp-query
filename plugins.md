@@ -32,23 +32,29 @@
 ##### Install
 
 ```javascript
-npm install gulp-query gulp-query-[plugin]
+npm install gulp-query gulp-query-plugin
 ```
 
 ##### gulpfile.js
 
 ```javascript
 let build = require('gulp-query')
-  , plugin = require('gulp-query-[plugin]');
+  , plugin = require('gulp-query-plugin');
 
 build((query) => {
   query.plugins([plugin])
-    .plugin('src/*','dest/')
+    .plugin('src/*','dest/','name')
 });
 ```
 
 ```javascript
-gulp watch
 gulp
+gulp plugin // or gulp plugin plugin2
+gulp plugin:name // or gulp plugin:name plugin2:name
+gulp watch
+gulp plugin watch // or gulp plugin plugin2 watch
+gulp plugin:name watch // or gulp plugin:name plugin2:name watch
 gulp --production
+gulp plugin --production // or gulp plugin plugin2 --production
+gulp plugin:name --production // or gulp plugin:name plugin2:name --production
 ```
