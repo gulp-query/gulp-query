@@ -6,3 +6,6 @@ npm-debug.log
 test
 yarn.lock
 package-lock.json
+readme.md
+plugins.md
+console.png

@@ -1,20 +1,29 @@
 {
-  "name": "gulp-query",
-  "version": "1.0.0",
-  "description": "Your workflow will be easier",
-  "main": "index.js",
-  "author": "Marat Nuriev",
-  "email": "nurieff@gmail.com",
-  "license": "MIT",
-  "dependencies": {
-    "chalk": "^2.1.0",
-    "cli-table": "^0.3.1",
-    "gulp": "^3.9.1",
-    "gulp-notify": "^3.0.0",
-    "gulp-plumber": "^1.1.0",
-    "merge-stream": "^1.0.1",
-    "minimist": "^1.2.0"
-  },
-  "devDependencies": {
-  }
+    "name": "gulp-query",
+    "version": "1.0.0",
+    "description": "Your workflow will be easier",
+    "main": "index.js",
+    "author": "Marat Nuriev",
+    "email": "nurieff@gmail.com",
+    "license": "MIT",
+    "repository": "https://github.com/gulp-query/gulp-query",
+    "keywords": [
+        "gulp",
+        "mix",
+        "tasks",
+        "task",
+        "gulp query",
+        "gulp api"
+    ],
+    "dependencies": {
+        "chalk": "^2.1.0",
+        "cli-table": "^0.3.1",
+        "gulp": "^3.9.1",
+        "gulp-notify": "^3.0.0",
+        "gulp-plumber": "^1.1.0",
+        "merge-stream": "^1.0.1",
+        "minimist": "^1.2.0"
+    },
+    "devDependencies": {
+    }
 }
