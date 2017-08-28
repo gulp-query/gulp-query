@@ -1,6 +1,6 @@
 {
     "name": "gulp-query",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Your workflow will be easier",
     "main": "index.js",
     "author": "Marat Nuriev",

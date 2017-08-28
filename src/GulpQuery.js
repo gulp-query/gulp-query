@@ -46,16 +46,15 @@ class GulpQuery {
     return this._proxy;
   }
 
-  plugins(plugins) {
+  plugins(...plugins) {
+
+    if (Array.isArray(plugins[0])) {
+      plugins = plugins[0];
+    }
+
     plugins.forEach((plugin) => {
       this._plugins[plugin.method()] = plugin;
     });
-
-    return this._proxy;
-  }
-
-  cfg() {
-    console.log('CFG!!');
 
     return this._proxy;
   }
