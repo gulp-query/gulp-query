@@ -1,7 +1,8 @@
 ## Plugins for gulp-query
 
-#### SCSS (SASS), CSS
+#### SCSS (SASS), CSS, PostCSS
 
+* [gulp-query-postcss](https://github.com/gulp-query/gulp-query-postcss) — to provide PostCSS
 * [gulp-query-scss](https://github.com/gulp-query/gulp-query-scss) — to compile SCSS with cssnano and autoprefixer
 * [gulp-query-scss-images](https://github.com/gulp-query/gulp-query-scss-images) — as the previous, but with sprites-generator and assets
 * [gulp-query-styles](https://github.com/gulp-query/gulp-query-styles) — concatenation, minification with cssnano and autoprefixer
@@ -39,11 +40,16 @@ npm install gulp-query gulp-query-plugin
 
 ```javascript
 let build = require('gulp-query')
-  , plugin = require('gulp-query-plugin');
+  , plugin = require('gulp-query-plugin')
+  , plugin2 = require('gulp-query-plugin2')
+  ...
+  ;
 
 build((query) => {
-  query.plugins([plugin])
+  query.plugins(plugin, plugin2, ...)
     .plugin('src/*','dest/','name')
+    .plugin2('src/*','dest/','name')
+    ...
 });
 ```
 
@@ -57,4 +63,5 @@ gulp plugin:name watch // or gulp plugin:name plugin2:name watch
 gulp --production
 gulp plugin --production // or gulp plugin plugin2 --production
 gulp plugin:name --production // or gulp plugin:name plugin2:name --production
+...
 ```
