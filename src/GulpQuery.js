@@ -151,7 +151,11 @@ class GulpQuery {
     pluginsNeedRun.forEach((plugin) => {
       let pluginModule = new this._plugins[plugin](this, this._pluginsConfig[plugin]);
 
-      let tasks = pluginModule.getAllTasks();
+      let tasks = pluginModule.getAllTasks()
+        .filter((task) => {
+          return params.length === 0 || params.indexOf(plugin) !== -1 || params.indexOf(task) !== -1;
+        });
+
       tasks.forEach((task) => {
         gulp.task(task, pluginModule.runTask.bind(pluginModule, task));
       });
@@ -174,9 +178,16 @@ class GulpQuery {
 
   watch() {
 
+    let params = [...this._params];
+
     this._watchPlugins.forEach((pluginModule) => {
 
-      let tasks = pluginModule.getAllTasks();
+      let plugin = pluginModule.constructor.method();
+
+      let tasks = pluginModule.getAllTasks()
+        .filter((task) => {
+          return params.length === 0 || params.indexOf(plugin) !== -1 || params.indexOf(task) !== -1;
+        });
 
       tasks.forEach((task) => {
         let files = pluginModule.watchTaskFiles(task);
