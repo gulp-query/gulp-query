@@ -68,9 +68,11 @@ class Plugin {
     let i = 1;
     this._initialConfigs.forEach((config) => {
 
+      config = this._prepareConfig(config);
+
       let taskName = this.constructor.method() + ':' + (config.name ? config.name : ('task-' + i));
 
-      this._taskToConfig[taskName] = this._prepareConfig(config);
+      this._taskToConfig[taskName] = config;
 
       ++i;
     });
