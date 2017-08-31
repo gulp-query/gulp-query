@@ -17,6 +17,7 @@
 * [gulp-query-webpack](https://github.com/gulp-query/gulp-query-webpack) — To compile JavaScript modules with importing css and scss. Uses [babel](http://babeljs.io/) 
 * [gulp-query-webpack-buble](https://github.com/gulp-query/gulp-query-webpack-buble)  — As the previous, but is the blazing fast with [buble](https://buble.surge.sh/guide/) instead *babel*
 * [gulp-query-rollup](https://github.com/gulp-query/gulp-query-rollup) — Similar to Webpack, Rollup is a next-generation bundler for ES2015. Uses [buble](https://buble.surge.sh/guide/)
+* [gulp-query-react](https://github.com/gulp-query/gulp-query-react) — To compile React apps
 
 #### Files and images
 
@@ -35,7 +36,7 @@
 
 ##### Install
 
-```javascript
+```text
 npm install gulp-query gulp-query-plugin
 ```
 
@@ -56,7 +57,7 @@ build((query) => {
 });
 ```
 
-```javascript
+```text
 gulp
 gulp plugin // or gulp plugin plugin2
 gulp plugin:name // or gulp plugin:name plugin2:name
