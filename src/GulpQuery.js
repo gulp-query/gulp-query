@@ -179,6 +179,9 @@ class GulpQuery {
   watch() {
 
     let params = [...this._params];
+    if (params.indexOf('watch') !== -1) {
+      params.splice(params.indexOf('watch'), 1);
+    }
 
     this._watchPlugins.forEach((pluginModule) => {
 

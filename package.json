@@ -1,6 +1,6 @@
 {
     "name": "gulp-query",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Your workflow will be easier",
     "main": "index.js",
     "author": "Marat Nuriev",
@@ -9,6 +9,7 @@
     "repository": "https://github.com/gulp-query/gulp-query",
     "keywords": [
         "gulp",
+        "gulpplugin",
         "mix",
         "tasks",
         "task",
