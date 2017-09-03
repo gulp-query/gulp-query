@@ -23,8 +23,9 @@
 #### Files and images
 
 * [Compress images](https://github.com/gulp-query/gulp-query-compress) — Compress your images in other directory
-* [Copy files and directories](https://github.com/gulp-query/gulp-query-copy) — Combine and copy your files
 * [Sprite maker](https://github.com/gulp-query/gulp-query-sprite) — Generate the sprites and css or scss or json...
+* [Copy files and directories](https://github.com/gulp-query/gulp-query-copy) — Combine and copy your files
+* [Remove files and directories](https://github.com/gulp-query/gulp-query-clean) — Remove your files and directories
 
 #### Hot reload
 * [Browser Sync](https://github.com/gulp-query/gulp-query-browser-sync) — Tracks changes and reloads Browsers 
