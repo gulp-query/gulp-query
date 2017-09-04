@@ -6,7 +6,8 @@
 * [SCSS](https://github.com/gulp-query/gulp-query-scss) — To compile SCSS with cssnano and autoprefixer
 * [SCSS with images](https://github.com/gulp-query/gulp-query-scss-images) — As the previous, but with sprites-generator and assets
 * [Less](https://github.com/gulp-query/gulp-query-less) — To compile Less with cssnano and autoprefixer
-* [CSS](https://github.com/gulp-query/gulp-query-styles) — Concatenation CSS files, minification with cssnano and autoprefixer
+* [Stylus](https://github.com/gulp-query/gulp-query-stylus) — To compile Stylus with cssnano and autoprefixer
+* [CSS](https://github.com/gulp-query/gulp-query-css) — Concatenation CSS files, minification with cssnano and autoprefixer
 
 #### Javascript
 
