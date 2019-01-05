@@ -162,12 +162,12 @@ class GulpQuery {
 
       this._watchPlugins.push(pluginModule);
 
-      gulp.task(plugin, tasks);
+      gulp.task(plugin, gulp.series(tasks));
 
       DefaultTasks.push(plugin);
     });
 
-    gulp.task('default', DefaultTasks);
+    gulp.task('default', gulp.series(DefaultTasks));
 
     if (!this._isWatching) {
       process.on('beforeExit', () => {
