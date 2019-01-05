@@ -121,7 +121,6 @@ class GulpQuery {
     if (params.indexOf('watch') !== -1) {
       params.splice(params.indexOf('watch'), 1);
 
-      gulp.task('watch', ['default'], this.watch.bind(this));
       this._isWatching = true;
     }
 
@@ -169,11 +168,14 @@ class GulpQuery {
 
     gulp.task('default', gulp.series(DefaultTasks));
 
-    if (!this._isWatching) {
+    if (this._isWatching) {
+      gulp.task('watch', /*gulp.series(['default']),*/ this.watch.bind(this));
+    } else {
       process.on('beforeExit', () => {
         this.report.draw();
       });
     }
+
   }
 
   watch() {
@@ -196,7 +198,7 @@ class GulpQuery {
         let files = pluginModule.watchTaskFiles(task);
 
         files.forEach((file) => {
-          gulp.watch(file, [task]);
+          gulp.watch(file, gulp.series([task]));
         })
       });
     })
