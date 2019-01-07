@@ -148,6 +148,7 @@ class GulpQuery {
 
     let DefaultTasks = [];
     pluginsNeedRun.forEach((plugin) => {
+
       let pluginModule = new this._plugins[plugin](this, this._pluginsConfig[plugin]);
 
       let tasks = pluginModule.getAllTasks()
@@ -163,13 +164,23 @@ class GulpQuery {
 
       gulp.task(plugin, gulp.series(tasks));
 
+      //if (plugin === 'webpack' && this._isWatching) return;
+
       DefaultTasks.push(plugin);
     });
 
-    gulp.task('default', gulp.series(DefaultTasks));
+    if (DefaultTasks.length) {
+      gulp.task('default', gulp.series(DefaultTasks));
+    }
 
     if (this._isWatching) {
-      gulp.task('watch', /*gulp.series(['default']),*/ this.watch.bind(this));
+
+      if (DefaultTasks.length) {
+        gulp.task('watch', gulp.series('default', this.watch.bind(this)));
+      } else {
+        gulp.task('watch', this.watch.bind(this));
+      }
+
     } else {
       process.on('beforeExit', () => {
         this.report.draw();
@@ -178,7 +189,7 @@ class GulpQuery {
 
   }
 
-  watch() {
+  watch(callback) {
 
     let params = [...this._params];
     if (params.indexOf('watch') !== -1) {
@@ -201,7 +212,9 @@ class GulpQuery {
           gulp.watch(file, gulp.series([task]));
         })
       });
-    })
+    });
+
+    callback();
 
   }
 }
